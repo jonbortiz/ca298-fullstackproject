@@ -1,3 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import APIUser
 
-AUTH_USER_MODEL = 'shop.APIUser'
+admin.site.register(APIUser, UserAdmin)
