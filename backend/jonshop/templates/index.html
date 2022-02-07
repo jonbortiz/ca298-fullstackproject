@@ -4,6 +4,13 @@
 {% block title %}Hello World{% endblock %}
 
 {% block content %}
-    Hello
+    <p>Hello World</p>
+    <ul>
+        {% for p in products %}
+            <li>{{p.name}} - €{{p.price}} - {{p.description}}</li>
+            <img src="{{p.product_image.url}}" width="300px">
+            <a href="/products/{{p.id}}"\>View</a>
+        {% endfor %}
+    </ul>
     <!-- content specific to the homepage goes here-->
 {% endblock %}
