@@ -9,13 +9,21 @@
     <p>Your shopping basket is empty</p>
 {% else %}
     <table>
+        <thead>
+            <tr>
+                <th>Products</th>
+                <th></th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
         <tbody>
             {% for item in sbi %}
             <tr>
                 <td>{{item.product_id.name}} - {{item.product_id.description }}</td>
-                <td><img src="{{item.product_id.image.url}}" /> </td>
+                <td><img src="{{item.product_id.product_image.url}}" width="100px"/></td>
                 <td>{{item.quantity}}</td>
-                <td>{{ item.price }}</td>
+                <td>{{item.item_price}}</td>
                 <td><a href="/removebasket/{{item.id}}">Remove</a> </td>
             </tr>
                 
@@ -24,5 +32,5 @@
     </table>
 {% endif %}
 
-
+<a href="/order">Order</a>
 {% endblock %}
