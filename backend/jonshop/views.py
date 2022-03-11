@@ -1,6 +1,8 @@
 from operator import truediv
 from re import template
 from django.shortcuts import render
+
+from jonshop.serializers import *
 from .models import *
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -9,6 +11,10 @@ from django.contrib.auth import login, logout
 from jonshop.forms import *
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from rest_framework import generics
 
 
 products = Product.objects.all()
@@ -124,3 +130,59 @@ class UserLoginView(LoginView):
 def logout_user(request):
     logout(request)
     return redirect("/")
+
+class APIUserViewSet(viewsets.ModelViewSet):
+    queryset = APIUser.objects.all()
+    serializer_class = APIUserSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+class UserRegistrationAPIView(generics.CreateAPIView):
+    serializer_class = UserRegistrationSerializer
+    permission_classes = [AllowAny]
+    queryset = queryset = APIUser.objects.all()
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class BasketViewSet(viewsets.ModelViewSet):
+    serializer_class = BasketSerializer
+    queryset = Basket.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user # get current user
+        if user.is_superuser:
+            return Basket.objects.all() # return all baskets if superuser requests it
+        else:
+            # for normal users only return the current active basket
+            shopping_basket = Basket.objects.filter(user_id=user, is_active=True)
+            return shopping_basket
+
+class CheckoutAPIView(generics.CreateAPIView):
+    serializer_class = CheckoutSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Order.objects.all()
+
+class RemoveBasketItemAPIView(generics.CreateAPIView):
+    serializer_class = RemoveBasketItemSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = BasketItems.objects.all()
+
+class AddBasketItemAPIView(generics.CreateAPIView):
+    serializer_class = AddBasketItemSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = BasketItems.objects.all()
+
+class OrderViewSet(viewsets.ModelViewSet):
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user 
+        if user.is_superuser:
+            return Order.objects.all() 
+        else:
+            orders = Order.objects.filter(user_id=user)
+            return orders
