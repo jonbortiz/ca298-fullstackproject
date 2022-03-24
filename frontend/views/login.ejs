@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Login Page</title>
+	<!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+</head>
+
+<body>
+	<h1>Login</h1>
+	<form id="login-form">
+		<label for="username-input">Username</label>
+		<input type="text" name="username-input" id="username" placeholder="Your username" required>
+		<label for="password-input">Password</label>
+		<input type="password" id="password" name="password-input" placeholder="Your password" required>
+		<button type="submit">Login</button>
+	</form>
+
+	<script>
+		function formValidator(event) {
+			event.preventDefault();
+			let username = document.getElementById("username").value;
+			let password = document.getElementById("password").value;
+
+			if (username == "") {
+				alert("The username field cannot be empty");
+			} else if (password == "") {
+				alert("The password field cannot be empty");
+			} else {
+				fetch("http://127.0.0.1:8000/api/token/", {
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({username: username, password: password})
+				}).then(response=>response.json())
+				.then(data=>{
+					console.log(data);
+					if ('access' in data) {
+						// login was successful
+						// alert("LOGIN WAS SUCCESSFUL!")
+						let accessToken = data['access'];
+						let refreshToken = data['refresh'];
+						localStorage.setItem("access", accessToken);
+						localStorage.setItem("refresh", refreshToken);
+
+						window.location.href = "/";
+					} else {
+						alert("WAR NING!\nTHE PASSWORD OR USER NAME WERE NOT FIND! VERY BAD!!");
+					}
+				});
+			}
+		}
+
+		let loginForm = document.getElementById("login-form");
+		loginForm.addEventListener('submit', formValidator);
+	</script>
+
+</body>
+
+</html>

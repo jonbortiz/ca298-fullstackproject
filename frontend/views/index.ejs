@@ -1,0 +1,25 @@
+<%- include('header') -%>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <img src="/images/test.png" width="200px">
+    <div id="main-cont">
+
+    </div>
+    <script>
+      fetch("http://127.0.0.1:8000/api/products")
+        .then(resp => resp.json())
+        .then(data => {
+          data.forEach(element => {
+            console.log(element);
+            let tmpli = document.createElement("li");
+            let link = document.createElement("a");
+            link.innerHTML = element['name'];
+            let productStr = "/productindividual?id=" + element['id'];
+            tmpli.appendChild(link);
+            console.log(productStr);
+            link.href = productStr;
+            document.getElementById("main-cont").appendChild(tmpli)
+          });
+        })
+    </script>
+<%- include('footer') -%>

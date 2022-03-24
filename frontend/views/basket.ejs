@@ -1,0 +1,25 @@
+<%- include('header') -%>
+<h1>Basket page</h1>
+<script>
+    window.onload = () => {
+        let params = window.location.search;
+        let urlParams = new URLSearchParams(params);
+        let basketID = urlParams.get("quantity");
+        fetch('http://127.0.0.1:8000/api/basket/?format=json', {
+            method: 'GET',
+			headers: {
+			    'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer '+localStorage.getItem("access")
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+    }
+
+</script>
+<%- include('footer') -%>
+</body>
+</html>

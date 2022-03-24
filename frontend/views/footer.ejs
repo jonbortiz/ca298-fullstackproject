@@ -1,0 +1,35 @@
+<footer>
+
+</footer>
+<script>
+
+        window.userLoggedIn = false;
+
+        function logout(){
+            localStorage.removeItem("access");
+            localStorage.removeItem("access")
+        }
+
+        function isLoggedIn(){
+            let accessToken = localStorage.getItem("access");
+            if(accessToken != null && typeof(accessToken)!='undefined'){
+                // if there is an access token in localstorage
+                window.userLoggedIn = true;
+            }
+            if(window.userLoggedIn){
+                    let loginLink = document.getElementById("auth-link");
+                    loginLink.innerHTML = "logout";
+                    loginLink.href = "/";
+                    loginLink.addEventListener("click", logout);
+                }
+        }
+
+        // window.onload = function(){
+        // isLoggedIn(); // when the page loads call isLoggedIn
+        // }
+        isLoggedIn();
+
+
+    </script>
+    </body>
+</html>

@@ -1,0 +1,58 @@
+<%- include('header') -%>
+
+    <h1 id="productName"></h1>
+    <h3 id="productPrice"></h3>
+    <img id="productImage" width="200px" src=""> 
+    <p id="productDescription"></p>
+
+    <script>
+        window.onload = () => {
+			let params = window.location.search;
+			let urlParams = new URLSearchParams(params);
+			let productID = urlParams.get("id");
+			// http://127.0.0.1:8000/api/products/id 
+			if (productID != null && typeof (productID) != 'undefined') {
+				fetch('http://127.0.0.1:8000/api/products/' + productID)
+				.then(resp => resp.json())
+				.then(data => {
+					console.log(data);
+					if ('detail' in data) {
+			    		// display some generic product not found error
+						alert("Could not find products");
+					}
+					else {
+						// display the product data 
+						document.getElementById("productName").innerHTML = data['name']
+						document.getElementById("productPrice").innerHTML = "€" + data['price']
+						document.getElementById("productDescription").innerHTML = data['description']
+						document.getElementById("productImage").src = data['product_image']
+
+						let addToCart = document.createElement("button");
+						addToCart.innerHTML = "Add to Cart";
+						addToCart.onclick = () => {
+							fetch('http://127.0.0.1:8000/apiadd/', {
+								method: 'POST',
+								headers: {
+									'Accept': 'application/json',
+									'Content-Type': 'application/json',
+									'Authorization': 'Bearer '+localStorage.getItem("access")
+								},
+								body: JSON.stringify({
+									"product_id": parseInt(productID)
+								})
+							})
+								.then(response => response.json())
+								.then(data => {
+									alert("Product Added to Cart");
+									console.log(data)
+								});
+						}
+						document.body.appendChild(addToCart);
+					}
+				});
+		}
+	}
+    </script>
+</body>
+<%- include('footer') -%>
+</html>
