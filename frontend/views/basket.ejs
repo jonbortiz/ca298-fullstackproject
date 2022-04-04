@@ -1,11 +1,24 @@
 <%- include('header') -%>
 <h1>Basket page</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Products</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody id="list">
+
+    </tbody>
+</table>
 <script>
+
     window.onload = () => {
         let params = window.location.search;
         let urlParams = new URLSearchParams(params);
-        let basketID = urlParams.get("quantity");
-        fetch('http://127.0.0.1:8000/api/basket/?format=json', {
+        // let basketID = urlParams.get("quantity");
+        fetch('http://127.0.0.1:8000/api/basket/', {
             method: 'GET',
 			headers: {
 			    'Accept': 'application/json',
@@ -15,7 +28,50 @@
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                data.forEach(element => {
+                    let basketitems = element.items
+                    console.log(basketitems);
+                    
+                    basketitems.forEach(item => {
+                        let tmptr = document.createElement("tr")
+
+                        let name = document.createElement("td")
+                        name.innerHTML = item['product_name']
+                        tmptr.appendChild(name)
+
+                        let quantity = document.createElement("td")
+                        quantity.innerHTML = item['quantity']
+                        tmptr.appendChild(quantity)
+
+                        let price = document.createElement("td")
+                        price.innerHTML = item['item_price']
+                        tmptr.appendChild(price)
+
+                        let removeItem = document.createElement("button");
+                        let productID = item['product_id']
+                        removeItem.innerHTML = "Remove Item";
+                        removeItem.onclick = () => {
+                            fetch('http://127.0.0.1:8000/apiremove/', {
+                                method: 'POST',
+                                headers: {
+                                    'Accept': 'application/json',
+									'Content-Type': 'application/json',
+									'Authorization': 'Bearer '+localStorage.getItem("access")
+                                },
+                                body: JSON.stringify({
+                                    "product_id": productID
+                                })
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    alert("Item Removed");
+                                    window.location.href = "/basket";
+                                })
+                        }
+                        tmptr.appendChild(removeItem)
+                        document.getElementById("list").appendChild(tmptr)
+                    })
+                })
             })
     }
 

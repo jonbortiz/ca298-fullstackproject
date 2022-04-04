@@ -29,6 +29,9 @@ class BasketItems(models.Model):
 
     def item_price(self):
         return self.product_id.price * self.quantity
+    
+    def product_name(self):
+        return self.product_id.name
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True)

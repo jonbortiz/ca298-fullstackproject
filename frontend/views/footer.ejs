@@ -7,7 +7,7 @@
 
         function logout(){
             localStorage.removeItem("access");
-            localStorage.removeItem("access")
+            localStorage.removeItem("refresh")
         }
 
         function isLoggedIn(){
@@ -18,15 +18,12 @@
             }
             if(window.userLoggedIn){
                     let loginLink = document.getElementById("auth-link");
-                    loginLink.innerHTML = "logout";
+                    loginLink.innerHTML = "Logout";
                     loginLink.href = "/";
                     loginLink.addEventListener("click", logout);
                 }
         }
 
-        // window.onload = function(){
-        // isLoggedIn(); // when the page loads call isLoggedIn
-        // }
         isLoggedIn();
 
 

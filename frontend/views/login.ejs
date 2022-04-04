@@ -38,8 +38,6 @@
 				.then(data=>{
 					console.log(data);
 					if ('access' in data) {
-						// login was successful
-						// alert("LOGIN WAS SUCCESSFUL!")
 						let accessToken = data['access'];
 						let refreshToken = data['refresh'];
 						localStorage.setItem("access", accessToken);
@@ -47,7 +45,7 @@
 
 						window.location.href = "/";
 					} else {
-						alert("WAR NING!\nTHE PASSWORD OR USER NAME WERE NOT FIND! VERY BAD!!");
+						alert("Username or Password not found");
 					}
 				});
 			}
