@@ -22,7 +22,7 @@ class UserLoginForm(AuthenticationForm):
         super(UserLoginForm, self).__init__(*args, **kwargs)
     
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Your Username'}))
-    username = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Your Password'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Your Password'}))
 
 class OrderForm(ModelForm):
     shipping_addr = forms.CharField(label="Shipping Address",widget=forms.TextInput(attrs={'class': "aesthetic-windows-95-text-input", 'placeholder': 'Shipping address', 'id': 'ship-addr'}))

@@ -9,9 +9,13 @@
         </tr>
     </thead>
     <tbody id="list">
-
     </tbody>
 </table>
+<form id="checkout-form">
+    <label for="address-input">Shipping Address</label>
+    <input type="text" name="address-input" id="shipping-address" placeholder="Your Shipping Address" required>
+    <button type="submit" id="checkout-button">Order</button>
+</form>
 <script>
 
     window.onload = () => {
@@ -29,8 +33,10 @@
             .then(response => response.json())
             .then(data => {
                 data.forEach(element => {
+                    
+                    var basketID = element['id']
+                    console.log(element)
                     let basketitems = element.items
-                    console.log(basketitems);
                     
                     basketitems.forEach(item => {
                         let tmptr = document.createElement("tr")
@@ -68,11 +74,35 @@
                                     window.location.href = "/basket";
                                 })
                         }
+
+                        let checkoutButton = document.getElementById("checkout-button");
+                        checkoutButton.onclick = () => {
+                            let shippingAddress = document.getElementById("shipping-address").value;
+                            console.log(shippingAddress)
+                            fetch("http://127.0.0.1:8000/apicheckout/", {
+                                method: 'POST',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer '+localStorage.getItem("access")
+                                },
+                                body:JSON.stringify({
+                                    "basket_id" : parseInt(basketID),
+                                    "shipping_addr" : shippingAddress
+                                })
+                            })
+                            .then(respone => response.json())
+                            .then(data => {
+                                console.log()
+                                alert("order complete");
+                            })
+                        }
                         tmptr.appendChild(removeItem)
                         document.getElementById("list").appendChild(tmptr)
                     })
                 })
             })
+        
     }
 
 </script>

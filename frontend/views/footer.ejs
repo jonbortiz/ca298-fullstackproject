@@ -14,6 +14,20 @@
             let accessToken = localStorage.getItem("access");
             if(accessToken != null && typeof(accessToken)!='undefined'){
                 // if there is an access token in localstorage
+                let basketli = document.createElement("li");
+                let basketlink = document.createElement("a");
+                basketlink.innerHTML = "Shopping Basket"
+                basketlink.href = "/basket";
+                basketli.appendChild(basketlink);
+                document.getElementById("navbar").appendChild(basketli);
+
+                let orderli = document.createElement("li");
+                let orderlink = document.createElement("a");
+                orderlink.innerHTML = "Previous Orders";
+                orderlink.href = "/orders";
+                orderli.appendChild(orderlink);
+                document.getElementById("navbar").appendChild(orderli);
+
                 window.userLoggedIn = true;
             }
             if(window.userLoggedIn){

@@ -1,0 +1,54 @@
+<%- include('header') -%>
+<h1>Previous Orders</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Date Ordered</th>
+            <th>Total Price</th>
+            <th>Shipping Address</th>
+        </tr>
+    </thead>
+    <tbody id="list">
+    </tbody>
+</table>
+
+<script>
+
+    window.onload = () => {
+        let params = window.location.search;
+        let urlParams = new URLSearchParams(params);
+        // let basketID = urlParams.get("quantity");
+        fetch('http://127.0.0.1:8000/api/orders/', {
+            method: 'GET',
+			headers: {
+			    'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer '+localStorage.getItem("access")
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(element => {
+                    
+                    let tmptr = document.createElement("tr")
+
+                    let date = document.createElement("td")
+                    date.innerHTML = element['date_ordered'].replace(/T/, ' ').replace(/\..+/, '')
+                    tmptr.appendChild(date)
+
+                    let total = document.createElement("td")
+                    total.innerHTML = element['total_price']
+                    tmptr.appendChild(total)
+
+                    let shipping = document.createElement("td")
+                    shipping.innerHTML = element['shipping_addr']
+                    tmptr.appendChild(shipping)
+
+                    document.getElementById("list").appendChild(tmptr)
+                })
+            })
+        
+    }
+
+</script>
+<%- include('footer') -%>

@@ -18,6 +18,10 @@ router.get('/basket', function(req, res, next){
   res.render('basket')
 });
 
+router.get('/orders', function(req, res, next){
+  res.render('orders')
+});
+
 router.get('/footer', function(req, res, next) {
   res.render('footer')
 });
