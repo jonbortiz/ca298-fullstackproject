@@ -1,9 +1,11 @@
 <%- include('header') -%>
-
-    <h1 id="productName"></h1>
-    <h3 id="productPrice"></h3>
-    <img id="productImage" width="200px" src=""> 
-    <p id="productDescription"></p>
+	<link rel='stylesheet' href='/stylesheets/prod-individ.css' />
+	<div id="prod-cont">
+		<h1 id="productName"></h1>
+		<h3 id="productPrice"></h3>
+		<img id="productImage" width="200px" src=""> 
+		<p id="productDescription"></p>
+	</div>
 
     <script>
         window.onload = () => {
@@ -47,7 +49,7 @@
 									console.log(data)
 								});
 						}
-						document.body.appendChild(addToCart);
+						document.getElementById("prod-cont").appendChild(addToCart);
 					}
 				});
 		}

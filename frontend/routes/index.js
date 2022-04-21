@@ -10,8 +10,16 @@ router.get('/login', function(req, res, next){
   res.render('login')
 });
 
+router.get('/products', function(req, res, next){
+  res.render('products')
+});
+
 router.get('/productindividual', function(req, res, next){
   res.render('productindividual')
+});
+
+router.get('/register', function(req, res, next){
+  res.render('register')
 });
 
 router.get('/basket', function(req, res, next){

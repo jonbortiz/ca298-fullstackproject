@@ -1,0 +1,27 @@
+<%- include('header') -%>
+    <link rel='stylesheet' href='/stylesheets/products.css' />
+    <div id="main-cont">
+      <h1>Products</h1>
+
+    </div>
+    <script>
+      fetch("http://127.0.0.1:8000/api/products")
+        .then(resp => resp.json())
+        .then(data => {
+          data.forEach(element => {
+            console.log(element);
+            let tmpli = document.createElement("li");
+            let link = document.createElement("a");
+            let img = document.createElement("img");
+            img.src = element['product_image'];
+            link.innerHTML = element['name'] + "<br>";
+            let productStr = "/productindividual?id=" + element['id'];
+            tmpli.appendChild(link);
+            console.log(productStr);
+            link.href = productStr;
+            link.appendChild(img);
+            document.getElementById("main-cont").appendChild(tmpli)
+          });
+        })
+    </script>
+<%- include('footer') -%>

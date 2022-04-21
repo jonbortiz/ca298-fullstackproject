@@ -1,0 +1,47 @@
+<%- include('header') -%>
+<link rel='stylesheet' href='/stylesheets/login-register.css' />
+<div id="loginreg-cont">
+    <h1>Register</h1>
+    <form id="register-form">
+        <label for="username-input">Username</label>
+        <input type="text" id="username" name="username-input" placeholder="Your username" required>
+        <label for="password-input">Password</label>
+        <input type="password" id="password" name="password-input" placeholder="Your password" required>
+        <label for="email-input">Email</label>
+        <input type="email" id="email" name="email-input" placeholder="Your email" required>
+        <button type="submit">Register</button>
+    </form>
+</div>
+<script>
+    function formValidator(event){
+        event.preventDefault();
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        let email = document.getElementById("email").value;
+        fetch("http://127.0.0.1:8000/apiregister/", {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username: username, email: email, password: password})
+            })
+            .then(response=>response.json())
+            .then(data=>{
+                console.log(data);
+                if(data['username'] == 'A user with that username already exists.'){
+                    alert("A user already exists with these credentials.");
+                }
+                else if(data['email'] == 'Enter a valid email address.'){
+                    alert("Enter a valid email address.")
+                }
+                else{
+                    alert("User successfully created!")
+                    window.location.href = "/login";
+                }
+            });
+        }
+    let myForm = document.getElementById("register-form");
+    myForm.addEventListener('submit', formValidator);
+</script>
+<%- include('footer') -%>

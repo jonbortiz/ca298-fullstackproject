@@ -1,21 +1,24 @@
 <%- include('header') -%>
-<h1>Basket page</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Products</th>
-            <th>Quantity</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody id="list">
-    </tbody>
-</table>
-<form id="checkout-form">
-    <label for="address-input">Shipping Address</label>
-    <input type="text" name="address-input" id="shipping-address" placeholder="Your Shipping Address" required>
-    <button type="submit" id="checkout-button">Order</button>
-</form>
+<link rel='stylesheet' href='/stylesheets/basket.css' />
+<div id="basket-cont">
+    <h1>Basket page</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Products</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody id="list">
+        </tbody>
+    </table>
+    <form id="checkout-form">
+        <label for="address-input">Shipping Address:</label>
+        <input type="text" name="address-input" id="shipping-address" placeholder="Your Shipping Address" required>
+        <button type="submit" id="checkout-button">Order</button>
+    </form>
+</div>
 <script>
 
     window.onload = () => {

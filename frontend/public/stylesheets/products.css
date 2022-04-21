@@ -1,0 +1,42 @@
+h1 {
+    color: #000;
+    padding: 10px 30px
+}
+
+#main-cont { 
+    width: 900px;
+    margin: 0;
+    padding: 0;
+    text-align:center;
+    list-style:none;
+    background: #fff;
+    margin-left: 25%;
+    border-radius: 20px;
+    box-shadow: 0px 25px 40px #000;
+}    
+#main-cont li {
+    display:inline-block;
+    padding-bottom: 10px;
+}
+
+#main-cont li a {
+    display:inline-block;
+    padding: 5px 10px;
+    text-decoration:none;
+    color:#000;
+    font-weight:bold;
+}
+
+#main-cont li a:hover {
+    font-size: 1.3em;
+    transition: 0.5s;
+}
+
+#main-cont li a img {
+    border:none;
+    margin:10px 0 0;
+}
+
+img {
+    max-width: 200px;
+}
